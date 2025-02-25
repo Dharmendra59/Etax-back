@@ -58,16 +58,16 @@ const authMiddlewares = (req, res, next) => {
       const Token = req.cookies.jwtToken;
 //   const auth = req.headers["authorization"];
   if (!Token) {
-    return res.status(403).json({ message: "Unauthorized jwt token is required" });
+    return res.status(403).json({ message: "Unauthorized User" });
   }
   try{
         const decoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
         req.user = decoded;
         next();
   }catch(err){
-        return res.status(403).json({message: "Unauthorized"})
+        return res.status(403).json({message: "Unauthorized User"})
   }
   next();
 };
 
-export { registration, login };
+export { registration, login, authMiddlewares };
