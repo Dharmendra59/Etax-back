@@ -5,6 +5,7 @@ import cors from 'cors'
 import mongoose from 'mongoose';
 import dbConnection from './models/db.js';
 import AuthRouter from './routes/auth/AuthRouter.js'
+import ProductRouter from './routes/auth/AuthRouter.js'
 
 
 const PORT = process.env.PORT || 3000 ;
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/auth', AuthRouter)
+app.use('/products', ProductRouter)
 // server listening 
 
 

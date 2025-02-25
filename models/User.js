@@ -1,4 +1,3 @@
-import { required, types } from "joi";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -21,4 +20,4 @@ const UserSchema = new Schema({
 });
 
 const UserModel = mongoose.model('users', UserSchema);
-module.exports = UserModel;
+export default UserModel;
