@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../../models/User.js";
 import dotenv from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 
@@ -43,7 +44,11 @@ const login = async (req, res) => {
       process.env.JWT_SECRET_KEY,
       { expiresIn: '1d' }
     );
-
+    res.cookie('jwtToken', jwtToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none'
+    })
     return res.status(200).json({ message: 'Login successful', success: true, jwtToken, email, name: user.name });
   } catch (err) {
     console.error(err); // Error clearly show karega
