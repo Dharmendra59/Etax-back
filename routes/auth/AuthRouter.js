@@ -9,5 +9,6 @@ router.post('/login', loginValidation, login);
 router.post('/register', registerValidation, registration);
 router.get('/authCheck', authMiddlewares, (req, res) => res.status(200).json(req.user));
 
+
  
 export default router
