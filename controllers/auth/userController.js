@@ -54,5 +54,20 @@ const login = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error', success: false });
   }
 };
+const authMiddlewares = (req, res, next) => {
+      const Token = req.cookies.jwtToken;
+//   const auth = req.headers["authorization"];
+  if (!Token) {
+    return res.status(403).json({ message: "Unauthorized jwt token is required" });
+  }
+  try{
+        const decoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
+        req.user = decoded;
+        next();
+  }catch(err){
+        return res.status(403).json({message: "Unauthorized"})
+  }
+  next();
+};
 
 export { registration, login };
