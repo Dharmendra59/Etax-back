@@ -1,35 +1,25 @@
-import dotenv from 'dotenv'
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-// import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 import dbConnection from './models/db.js';
-import AuthRouter from './routes/auth/AuthRouter.js'
-import ProductRouter from './routes/auth/AuthRouter.js'
-import { ensureAuth } from './middlewares/Auth.js';
-import cookieParser from 'cookie-parser';
-
-
-const PORT = process.env.PORT || 3000 ;
+import AuthRouter from './routes/auth/AuthRouter.js';
+import cookieParser from "cookie-parser"
 
 dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 3000;
+app.use(cookieParser())
 dbConnection();
-app.use(cors());
-app.use(cookieParser());
 
-
-app.get('/', (req, res) => {
-      res.send('Hello, world!');
-});
-
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 app.use(bodyParser.json());
-app.use(cors());
-app.use('/auth', AuthRouter)
-app.use('/products', ProductRouter)
-// server listening 
 
+app.use('/auth', AuthRouter);
 
-app.listen(3000,()=>{
-    console.log(`Server listenig at http://localhost:${PORT}`);
-})
+app.listen(3000, () => {
+    console.log(`Server listening at http://localhost:${PORT}`);
+});
