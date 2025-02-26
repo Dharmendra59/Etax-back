@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../../models/User.js";
 import dotenv from "dotenv";
-import { v2 as cloudinary } from "cloudinary";
+
+console.log(jwt)
 
 dotenv.config();
 
@@ -39,35 +40,43 @@ const login = async (req, res) => {
       return res.status(403).json({ message: "Wrong password", success: false });
     }
 
-    const jwtToken = jwt.sign(
-      { email: user.email, _id: user._id },
+    const token = jwt.sign(
+      { email: user.email, id: user._id },
       process.env.JWT_SECRET_KEY,
       { expiresIn: '1d' }
     );
-    res.cookie('jwtToken', jwtToken, {
-      httpOnly: true,
-      secure: true,
-    })
-    return res.status(200).json({ message: 'Login successful', success: true, jwtToken, email, name: user.name });
+
+    return res.status(200).json({ 
+      message: "Login successful", 
+      success: true, 
+      token,   // Send token in response
+    });
   } catch (err) {
-    console.error(err); // Error clearly show karega
-    return res.status(500).json({ message: 'Internal Server Error', success: false });
+    console.error(err);
+    return res.status(500).json({ message: "Internal Error", success: false });
   }
-};
-const authMiddlewares = (req, res, next) => {
-      const Token = req.cookies.jwtToken;
-//   const auth = req.headers["authorization"];
-  if (!Token) {
-    return res.status(403).json({ message: "Unauthorized User" });
-  }
-  try{
-        const decoded = jwt.verify(Token, process.env.JWT_SECRET_KEY);
-        req.user = decoded;
-        next();
-  }catch(err){
-        return res.status(403).json({message: "Unauthorized User"})
-  }
-  next();
 };
 
-export { registration, login, authMiddlewares };
+
+const authMiddleware = (req, res, next) => {
+  // Get token from headers
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized access. Token missing." });
+  }
+
+  try {
+    const token = authHeader.split(" ")[1]; // Extract token from "Bearer TOKEN_VALUE"
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    
+    req.result = decoded; // Attach user data to request
+    next(); // Proceed to next middleware or route handler
+  } catch (err) {
+    return res.status(403).json({ message: "Invalid or expired token." });
+  }
+};
+
+
+
+export { registration, login, authMiddleware }
