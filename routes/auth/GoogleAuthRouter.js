@@ -4,7 +4,11 @@ import { OAuth2Client } from 'google-auth-library';
 import User from '../../models/User.js';
 
 const router = express.Router();
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const GOOGLE_CLIENT_ID = '94422938394-njobeij9icm6up17h5nci6dmogj0gbq7.apps.googleusercontent.com';
+const JWT_SECRET_KEY = 'secret-123';
+
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 router.post('/', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1]; // Get token from header
@@ -12,7 +16,7 @@ router.post('/', async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: GOOGLE_CLIENT_ID,
     });
 
     const { email, name, picture } = ticket.getPayload();
@@ -29,7 +33,7 @@ router.post('/', async (req, res) => {
       await user.save();
     }
 
-    const backendToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET_KEY, {
+    const backendToken = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET_KEY, {
       expiresIn: '1h',
     });
 
