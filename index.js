@@ -14,7 +14,7 @@ app.use(cookieParser())
 dbConnection();
 
 app.use(cors({
-    origin: "https://e-taxgst.netlify.app/",
+    origin: "https://e-taxgst.netlify.app",
     credentials: true
 }));
 app.use(bodyParser.json());
