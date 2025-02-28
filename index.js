@@ -6,6 +6,7 @@ import dbConnection from './models/db.js';
 import AuthRouter from './routes/auth/AuthRouter.js';
 import cookieParser from "cookie-parser"
 import contactRoute from './routes/auth/ContactRouter.js';
+import FileRouter from './routes/auth/FileRouter.js'
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 
 app.use('/auth', AuthRouter);
 app.use('/contact-data',contactRoute);
+app.use('/file', FileRouter); 
 
 
 app.listen(3000, () => {
