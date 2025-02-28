@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post('/login', loginValidation, login);
 router.post('/register', registerValidation, registration);
+
 router.get("/checkauth", authMiddleware, async (req, res) => {
     try {
         const result = req.result; // Extracted from authMiddleware
