@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
       await user.save();
     }
 
-    const backendToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+    const backendToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET_KEY, {
       expiresIn: '1h',
     });
 
