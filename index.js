@@ -13,10 +13,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser())
 dbConnection();
 
-app.use(cors({
-    origin: "https://e-taxgst.netlify.app",
-    credentials: true
-}));
+// app.use(cors({
+//     origin: "*",
+//     credentials: true
+// }));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/auth', AuthRouter);
