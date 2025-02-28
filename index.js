@@ -23,7 +23,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/auth', AuthRouter);
-app.use('/login', GoogleAuthRouter);
+app.use('/auth/google-login', GoogleAuthRouter);
 app.use('/contact-data', contactRoute);
 app.use('/file', FileRouter);
 
