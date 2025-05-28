@@ -4,7 +4,9 @@ import path from 'path';
 import fs from 'fs';
 import { fileGet, fileSubmit } from '../../controllers/auth/FileController.js';
 // import { upload } from '../../middlewares/cloudinaryMiddle.js';
-import upload from '../../middlewares/cloudinaryMiddle.js';
+// import upload from '../../middlewares/cloudinaryMiddle.js';
+const upload = require('../../middlewares/cloudinaryMiddle');
+
 
 
 const router = express.Router();
