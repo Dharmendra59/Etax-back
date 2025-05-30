@@ -4,11 +4,13 @@ import cloudinary from '../utils/cloudinary.js';
 
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: {
-        folder: 'my_uploads',
-        allowed_formats: ['jpg', 'png', 'jpeg', 'pdf'],
-        resource_type: 'auto',   // सभी फाइल types सपोर्ट करें
-    },
+  params: async (req, file) => {
+    return {
+      folder: 'uploads',
+      resource_type: 'auto', // ⭐ Supports images, pdfs, excels, etc.
+      public_id: file.originalname.split('.')[0],
+    };
+  },
 });
 
 const upload = multer({ storage });
