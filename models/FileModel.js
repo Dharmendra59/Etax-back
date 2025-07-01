@@ -4,7 +4,11 @@ const fileSchema = new mongoose.Schema({
     name: { type: String, required: true },
     mobile: { type: String, required: true },
     email: { type: String, required: true, lowercase: true },
-    file: { type: String, required: true },   // Cloudinary URL save hoga
+    file: { 
+        url: { type: String, required: true },
+        public_id: { type: String, required: true },
+        originalName: { type: String, required: true }
+    },
     message: { type: String, required: true }
 }, { timestamps: true });
 

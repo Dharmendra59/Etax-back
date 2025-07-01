@@ -3,25 +3,20 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinary from '../utils/cloudinary.js';
 
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-  params: async (req, file) => {
-    let resourceType = 'image'; // default
-    const mime = file.mimetype;
-
-    if (mime === 'application/pdf' || mime.startsWith('application/')) {
-      resourceType = 'raw';
-    } else if (mime.startsWith('video/')) {
-      resourceType = 'video';
-    } else if (mime.startsWith('image/')) {
-      resourceType = 'image';
-    }
-
+  cloudinary: cloudinary,
+  params: (req, file) => {
+    let resourceType = 'auto'; // Let Cloudinary detect automatically
+    
     return {
       folder: 'uploads',
       resource_type: resourceType,
-      public_id: file.originalname,  // 🔥 Ye extension ke saath naam dega
+      public_id: `${Date.now()}-${file.originalname.replace(/\.[^/.]+$/, '')}`,
+      format: async () => {
+        const ext = file.originalname.split('.').pop().toLowerCase();
+        return ext === 'pdf' ? 'pdf' : ext;
+      }
     };
-  },
+  }
 });
 
 const upload = multer({ storage });
