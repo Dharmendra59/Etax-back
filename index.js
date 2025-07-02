@@ -17,18 +17,18 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
 dbConnection();
 
-// app.use(cors({
-//     origin: "*",
-//     credentials: true
-// }));
-// app.use(cors());
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://www.quickfinancialservices.org"
-  ],
-  credentials: true,
+    origin: "*",
+    credentials: true
 }));
+// app.use(cors());
+// app.use(cors({
+//   origin: [
+//     "http://localhost:5173",
+//     "https://www.quickfinancialservices.org"
+//   ],
+//   credentials: true,
+// }));
 
 app.use(bodyParser.json());
 
