@@ -24,7 +24,7 @@ export const uploadPdf = async (req, res) => {
     const savedFile = await file.save();
     res.status(201).json({
       message: 'File and data uploaded successfully!',
-      fileUrl: `http://localhost:3000${savedFile.filePath}`,
+      fileUrl: `${req.protocol}://${req.get('host')}${savedFile.filePath}`,
       fileData: savedFile,
     });
   } catch (err) {
