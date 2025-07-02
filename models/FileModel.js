@@ -4,10 +4,13 @@ const fileSchema = new mongoose.Schema({
     name: { type: String, required: true },
     mobile: { type: String, required: true },
     email: { type: String, required: true, lowercase: true },
-    file: { 
-        url: { type: String, required: true },
-        public_id: { type: String, required: true },
-        originalName: { type: String, required: true }
+    fileName: {
+        type: String,
+        required: true,
+    },
+    filePath: {
+        type: String,
+        required: true,
     },
     message: { type: String, required: true }
 }, { timestamps: true });
