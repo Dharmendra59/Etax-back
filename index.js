@@ -21,7 +21,15 @@ dbConnection();
 //     origin: "*",
 //     credentials: true
 // }));
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://www.quickfinancialservices.org"
+  ],
+  credentials: true,
+}));
+
 app.use(bodyParser.json());
 
 app.use('/auth', AuthRouter);
