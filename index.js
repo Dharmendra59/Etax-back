@@ -36,14 +36,6 @@ app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// MongoDB connection
-// mongoose.connect('mongodb+srv://singhdhas9559604443a:Computer@cluster0.zbxhx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/pdfUploads', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// })
-// .then(() => console.log('MongoDB connected'))
-// .catch((err) => console.error('MongoDB connection error:', err));
-
 app.use((req, res, next) => {
   console.log("Request URL:", req.originalUrl);
   next();
